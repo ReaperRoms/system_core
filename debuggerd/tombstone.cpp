@@ -167,13 +167,13 @@ static const char* get_sigcode(int signo, int code) {
 static void dump_header_info(log_t* log) {
   char fingerprint[PROPERTY_VALUE_MAX];
   char revision[PROPERTY_VALUE_MAX];
-  char slim_version[PROPERTY_VALUE_MAX];
+  char reaper_version[PROPERTY_VALUE_MAX];
 
-  property_get("ro.slim.version", slim_version, "unknown");
+  property_get("ro.reaper.version", reaper_version, "unknown");
   property_get("ro.build.fingerprint", fingerprint, "unknown");
   property_get("ro.revision", revision, "unknown");
 
-  _LOG(log, logtype::HEADER, "SLIM Version: '%s'\n", slim_version);
+  _LOG(log, logtype::HEADER, "REAPER Version: '%s'\n", reaper_version);
   _LOG(log, logtype::HEADER, "Build fingerprint: '%s'\n", fingerprint);
   _LOG(log, logtype::HEADER, "Revision: '%s'\n", revision);
   _LOG(log, logtype::HEADER, "ABI: '%s'\n", ABI_STRING);
@@ -371,6 +371,7 @@ static void dump_all_maps(Backtrace* backtrace, BacktraceMap* map, log_t* log, p
     ALOGE("Cannot get siginfo for %d: %s\n", tid, strerror(errno));
   }
 
+  ScopedBacktraceMapIteratorLock lock(map);
   _LOG(log, logtype::MAPS, "\n");
   if (!print_fault_address_marker) {
     _LOG(log, logtype::MAPS, "memory map:\n");
