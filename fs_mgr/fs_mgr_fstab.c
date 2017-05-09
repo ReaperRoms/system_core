@@ -73,6 +73,7 @@ static struct flag_list fs_mgr_flags[] = {
     { "recoveryonly",MF_RECOVERYONLY },
     { "swapprio=",   MF_SWAPPRIO },
     { "zramsize=",   MF_ZRAMSIZE },
+    { "verifyatboot", MF_VERIFYATBOOT },
     { "verify",      MF_VERIFY },
     { "noemulatedsd", MF_NOEMULATEDSD },
     { "notrim",       MF_NOTRIM },
@@ -214,8 +215,6 @@ static int parse_flags(char *flags, struct flag_list *fl,
                         flag_vals->zram_size = calculate_zram_size(val);
                     else
                         flag_vals->zram_size = val;
-                } else if ((fl[i].flag == MF_ZRAMSTREAMS) && flag_vals) {
-                    flag_vals->zram_streams = strtoll(strchr(p, '=') + 1, NULL, 0);
                 }
                 break;
             }
